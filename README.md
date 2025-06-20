@@ -7,7 +7,7 @@ Doubleclick covert.bat in windows after installing 64bit LibreOffice and after p
 
 The files with the same name will be appended with a _1 _2 etc. 
 
-Thanks to OpenAI gpt-4.5-preview-2025-02-27 for helping me do it. I think this code will be useful to implement RAG and to convert files in a format that docling (IBM's opensource project) can use to chunk your data for your vector database. Probably easier to parse your files if they are all in the same folder.
+I think this code will be useful to implement RAG and to convert files in a format that docling (IBM's opensource project) can use to chunk your data for your vector database. Probably easier to parse your files if they are all in the same folder.
 
 **CopyPDF:** Copy all your PDF files to a single directory.
 
