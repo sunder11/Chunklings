@@ -21,6 +21,7 @@ set "target_folder=C:\AI\2"
 
 Thanks to OpenAI gpt-4.5-preview-2025-02-27 for helping me with the 2 utilities above (or I should say for writing the code for about $5.00).<br><br>
 
+**ExcelToJson** Convert your Excel .xlsx to .Json format.<br><br> 
 
 
 **XportEmailsFromPst:**  Use These Windows Utilities to extract your emails from your outlook@example.com.pst file and convert them to html.
