@@ -19,7 +19,7 @@ rem Set your folders:<br>
 set "source_folder=C:\AI\Copypdf"<br>
 set "target_folder=C:\AI\2"
 
-Thanks to OpenAI gpt-4.5-preview-2025-02-27 for helping me do it (or I should say for writing the code for about $5.00).<br><br>
+Thanks to OpenAI gpt-4.5-preview-2025-02-27 for helping me with the 2 utilities above (or I should say for writing the code for about $5.00).<br><br>
 
 
 
