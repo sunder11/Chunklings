@@ -25,9 +25,9 @@ Thanks to OpenAI gpt-4.5-preview-2025-02-27 for helping me do it (or I should sa
 
 **XportEmailsFromPst:**  Use These Windows Utilities to extract your emails from your outlook@example.com.pst file and convert them to html.
 
-All the credit to:
+All the credit to: https://github.com/Dijji/XstReader
 
-https://github.com/Dijji/XstReader
+
 --------------------------------------------------------------------
 
 Export emails from reader:
