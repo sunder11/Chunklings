@@ -19,10 +19,11 @@ rem Set your folders:<br>
 set "source_folder=C:\AI\Copypdf"<br>
 set "target_folder=C:\AI\2"
 
-Thanks to OpenAI gpt-4.5-preview-2025-02-27 for helping me with the 2 utilities above (or I should say for writing the code for about $5.00).<br><br>
+Thanks to OpenAI gpt-4.5-preview-2025-02-27 for helping me with the 2 utilities above (or I should say for writing the code for about $5.00).<br>
 
-**ExcelToJson** Convert your Excel .xlsx to .Json format.<br><br> 
+**ExcelToJson** Convert your Excel .xlsx to .Json format.<br> 
 
+**CRMbat**  Convert your CRM to html file. Modify the fields (4 places) to match yours (and their position number), and at the output section where you will see !FIELD_NAME!.  It will writeout all of your database records numbering them in an html file with a sentence describing the record.<br>
 
 **XportEmailsFromPst:**  Use These Windows Utilities to extract your emails from your outlook@example.com.pst file and convert them to html.
 
