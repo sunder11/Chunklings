@@ -25,7 +25,7 @@ Thanks to OpenAI gpt-4.5-preview-2025-02-27 for helping me with the 2 utilities 
 
 **CRMbat**  Convert your CRM to html file. Modify the fields (4 places) to match yours (and their position number), and at the output section where you will see !FIELD_NAME!.  It will writeout all of your database records numbering them in an html file with a sentence describing the record.<br>
 
-**SaveOutlookEmailsToDocx:**  Copy and Paste this Visual Basic code and save it as a macro in outlook and add it to the Outlook Ribbon (button on the toolbar). To Use: Modify the path to where you want to save the .docx file. Select the emails you want to copy, click the button, it will prompt for a file_name, then it will copy all the emails selected to one "file_name.docx". 
+**SaveOutlookEmailsToDocx:**  Copy and Paste this Visual Basic code and save it as a macro in outlook and add it to the Outlook Ribbon (button on the toolbar). To Use: Modify the path to where you want to save the .docx file. Select the emails you want to copy, click the button, it will prompt for a file_name, then it will copy all the emails selected to one file called "file_name.docx". 
 
 
 
