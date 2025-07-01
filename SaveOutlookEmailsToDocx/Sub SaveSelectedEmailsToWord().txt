@@ -1,0 +1,163 @@
+Sub SaveSelectedEmailsToWord()
+    Dim olApp As Object
+    Dim olSelection As Object
+    Dim olMail As Object
+    Dim wdApp As Object
+    Dim wdDoc As Object
+    Dim wdRange As Object
+    Dim fileName As String
+    Dim filePath As String
+    Dim folderPath As String
+    Dim i As Integer
+    Dim emailCount As Integer
+    Dim emailBody As String
+    
+    ' Get the Outlook application
+    Set olApp = GetObject(, "Outlook.Application")
+    
+    ' Get selected emails
+    Set olSelection = olApp.ActiveExplorer.Selection
+    emailCount = olSelection.Count
+    
+    ' Check if any emails are selected
+    If emailCount = 0 Then
+        MsgBox "Please select at least one email first.", vbExclamation
+        Exit Sub
+    End If
+    
+    ' Prompt for filename
+    fileName = InputBox("Enter the filename (without extension):", "Save Emails to Word", "EmailExport")
+    
+    ' Check if user cancelled or entered empty string
+    If fileName = "" Then
+        Exit Sub
+    End If
+    
+    ' Set folder path and create if it doesn't exist
+    folderPath = "C:\AI\Add\emails"
+    If Dir(folderPath, vbDirectory) = "" Then
+        ' Create the directory structure if it doesn't exist
+        On Error Resume Next
+        MkDir "C:\AI"
+        MkDir "C:\AI\Add"
+        MkDir "C:\AI\Add\emails"
+        On Error GoTo 0
+        
+        ' Check if directory creation was successful
+        If Dir(folderPath, vbDirectory) = "" Then
+            MsgBox "Could not create directory: " & folderPath & vbCrLf & "Please check permissions or create the folder manually.", vbCritical
+            Exit Sub
+        End If
+    End If
+    
+    ' Create file path
+    filePath = folderPath & "\" & fileName & ".docx"
+    
+    ' Create Word application and document
+    Set wdApp = CreateObject("Word.Application")
+    wdApp.Visible = False ' Set to True if you want to see Word working
+    Set wdDoc = wdApp.Documents.Add
+    
+    ' Set default paragraph formatting for the entire document
+    With wdDoc.Range.ParagraphFormat
+        .SpaceAfter = 0
+        .SpaceBefore = 0
+        .LineSpacing = 12 ' Single line spacing
+    End With
+    
+    ' Loop through selected emails
+    For i = 1 To emailCount
+        Set olMail = olSelection.Item(i)
+        
+        ' Only process if it's a mail item
+        If olMail.Class = 43 Then ' olMail constant
+            ' Get the range at the end of the document
+            Set wdRange = wdDoc.Range
+            wdRange.Collapse Direction:=0 ' wdCollapseEnd
+            
+            ' Clean up the email body - remove extra spaces and hyperlinks
+            emailBody = olMail.Body
+            emailBody = Replace(emailBody, "HYPERLINK """, "")
+            emailBody = Replace(emailBody, """", "")
+            emailBody = Replace(emailBody, vbCrLf & vbCrLf & vbCrLf, vbCrLf & vbCrLf)
+            
+            ' Remove multiple consecutive spaces
+            Do While InStr(emailBody, "  ") > 0
+                emailBody = Replace(emailBody, "  ", " ")
+            Loop
+            
+            ' Remove empty lines at the beginning
+            Do While Left(emailBody, 2) = vbCrLf
+                emailBody = Mid(emailBody, 3)
+            Loop
+            
+            ' Remove empty lines at the end
+            Do While Right(emailBody, 2) = vbCrLf
+                emailBody = Left(emailBody, Len(emailBody) - 2)
+            Loop
+            
+            ' Add email header information
+            wdRange.InsertAfter "FROM: " & olMail.SenderName & " (" & olMail.SenderEmailAddress & ")" & vbCrLf & _
+                               "TO: " & olMail.To & vbCrLf & _
+                               "SUBJECT: " & olMail.Subject & vbCrLf & _
+                               "DATE: " & olMail.ReceivedTime & vbCrLf & _
+                               String(80, "-") & vbCrLf & vbCrLf
+            
+            ' Move to end of document
+            Set wdRange = wdDoc.Range
+            wdRange.Collapse Direction:=0 ' wdCollapseEnd
+            
+            ' Insert cleaned email body
+            wdRange.InsertAfter emailBody
+            
+            ' Add page break if not the last email
+            If i < emailCount Then
+                Set wdRange = wdDoc.Range
+                wdRange.Collapse Direction:=0 ' wdCollapseEnd
+                wdRange.InsertAfter vbCrLf & vbCrLf
+                wdRange.Collapse Direction:=0 ' wdCollapseEnd
+                wdRange.InsertBreak Type:=7 ' wdPageBreak
+            End If
+        End If
+    Next i
+    
+    ' Apply paragraph formatting to the entire document to ensure 0pt spacing
+    With wdDoc.Range.ParagraphFormat
+        .SpaceAfter = 0
+        .SpaceBefore = 0
+        .LineSpacing = 12 ' Single line spacing
+    End With
+    
+    ' Save the document
+    On Error GoTo SaveError
+    wdDoc.SaveAs2 filePath, FileFormat:=16 ' wdFormatXMLDocument (.docx)
+    On Error GoTo 0
+    
+    ' Clean up
+    wdDoc.Close
+    wdApp.Quit
+    
+    ' Show completion message
+    MsgBox "Successfully saved " & emailCount & " emails to:" & vbCrLf & filePath, vbInformation
+    
+    ' Clean up objects
+    Set wdRange = Nothing
+    Set wdDoc = Nothing
+    Set wdApp = Nothing
+    Set olMail = Nothing
+    Set olSelection = Nothing
+    Set olApp = Nothing
+    
+    Exit Sub
+    
+SaveError:
+    MsgBox "Error saving file to: " & filePath & vbCrLf & "Error: " & Err.Description, vbCritical
+    wdDoc.Close SaveChanges:=False
+    wdApp.Quit
+    Set wdRange = Nothing
+    Set wdDoc = Nothing
+    Set wdApp = Nothing
+    Set olMail = Nothing
+    Set olSelection = Nothing
+    Set olApp = Nothing
+End Sub
